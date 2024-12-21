@@ -128,20 +128,14 @@ class INode(metaclass=ABCMeta):
     
     def __hash__(self) -> int:
         return hash(self.value);
+    
+    def __len__(self) -> int:
+        return 1;
 
 class IEdge(metaclass=ABCMeta):
     """
-    Abstract base class for an unweighted `Edge` object in graphs.
-    
-    A `Edge` object represents a connection between two nodes in a graph.
-    
-    Attributes
-    ----------
-    source : Node
-        The source node of the edge.
-    target : Node
-        The target node of the edge.
-   """
+    Abstract base class for an `Edge` object in graphs.
+    """
     def __init__(self, source: INode, target: INode) -> None:
         """
         Initializes a new `Edge` object with the given source and target nodes.
@@ -153,16 +147,11 @@ class IEdge(metaclass=ABCMeta):
         target : Node
             The target node of the edge.
         """
-        if source == target:
-            GraphException.raise_invalid_edge_loop(source.value, target.value);
-            return;
-        
         self.source = source;
         self.target = target;
-        return;
-    
+        
     def __str__(self) -> str:
-        return f"({self.source.value}, {self.target.value})";
+        return f"({self.source}, {self.target})";
     
     def __repr__(self) -> str:
         return self.__str__();
@@ -172,61 +161,24 @@ class IEdge(metaclass=ABCMeta):
     
     def __hash__(self) -> int:
         return hash((self.source, self.target));
+    
+    def __getitem__(self, index: int) -> INode:
+        if index == 0:
+            return self.source;
+        elif index == 1:
+            return self.target;
+        else:
+            raise IndexError("Index out of range");
+        
+    def __setitem__(self, index: int, value: INode) -> None:
+        if index == 0:
+            self.source = value;
+        elif index == 1:
+            self.target = value;
+        else:
+            raise IndexError("Index out of range");
+    
 
-class WeightedEdge(IEdge):
-    """
-    A `WeightedEdge` object represents a weighted connection between two nodes in a graph.
-    
-    Attributes
-    ----------
-    source : Node
-        The source node of the edge.
-    target : Node
-        The target node of the edge.
-    weight : float
-        The weight of the edge.
-    """
-    def __init__(self, source: INode, target: INode, weight: float = 1.) -> None:
-        """
-        Initializes a new `WeightedEdge` object with the given source, target, and weight.
-
-        Parameters
-        ----------
-        source : Node
-            The source node of the edge.
-        target : Node
-            The target node of the edge.
-        weight : float
-            The weight of the edge, defaults to 1.
-        """
-        super().__init__(source, target);
-        self.weight = weight;
-        return;
-    
-    def __str__(self) -> str:
-        return f"({self.source.value}, {self.target.value})[w={self.weight})]";
-    
-    def __repr__(self) -> str:
-        return self.__str__();
-    
-    def __eq__(self, other: "WeightedEdge") -> bool:
-        return self.source == other.source and self.target == other.target and self.weight == other.weight;
-    
-    def __hash__(self) -> int:
-        return hash((self.source, self.target, self.weight));
-    
-    def __lt__(self, other: "WeightedEdge") -> bool:
-        return self.weight < other.weight;
-    
-    def __le__(self, other: "WeightedEdge") -> bool:
-        return self.weight <= other.weight;
-    
-    def __gt__(self, other: "WeightedEdge") -> bool:
-        return self.weight > other.weight;
-    
-    def __ge__(self, other: "WeightedEdge") -> bool:
-        return self.weight >= other.weight;
-    
 class IGraph(metaclass=ABCMeta):
     """
     Abstract base class for the `Graph` classes.
