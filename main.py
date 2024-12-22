@@ -6,15 +6,18 @@ from src.operators.ElementarNodicOperators import MEdge, Multigraph;
 
 def main():
     A, B, C, D, E, F    = BasicNode("A"), BasicNode("B"), BasicNode("C"), BasicNode("D"), BasicNode("E"), BasicNode("F");
-    g                   = BasicGraph.from_nodes({A, B, C, D, E, F}, {BasicEdge(A, B), BasicEdge(B, C), BasicEdge(C, A), 
+    g                   = Multigraph.from_nodes({A, B, C, D, E, F}, {BasicEdge(A, B), BasicEdge(B, C), BasicEdge(C, A), 
                                                                BasicEdge(C, D), BasicEdge(D, E), BasicEdge(E, C),
                                                                BasicEdge(E, F)});
     
     G, H, I, J, K, L   = BasicNode("G"), BasicNode("H"), BasicNode("I"), BasicNode("J"), BasicNode("K"), BasicNode("L");
-    h                  = BasicGraph.from_nodes({G, H, I, J, K, L}, {BasicEdge(G, H), BasicEdge(H, I), BasicEdge(I, J), 
+    h                  = Multigraph.from_nodes({G, H, I, J, K, L}, {BasicEdge(G, H), BasicEdge(H, I), BasicEdge(I, J), 
                                                                BasicEdge(J, K), BasicEdge(K, L), BasicEdge(L, G)});
     
-    print(g + I);
+    #   Add a new node to the graph
+    print(g.nodes);
+    g += G;
+    print(g.nodes);
     
     
     return;
