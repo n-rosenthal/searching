@@ -84,18 +84,15 @@ class BasicEdge(IEdge):
         return;
     
     def __str__(self) -> str:
-        return f"Edge={self.source.identifier}-{self.target.identifier}[{self.weight}]";
+        return f"({self.source}, {self.target}, [w={self.weight}])";
     
-    def __repr__(self) -> str:
-        return f"Edge={self.source.identifier}-{self.target.identifier}[{self.weight}]";
-    
-    def __eq__(self, other: "Edge") -> bool:
+    def __eq__(self, other: "IEdge") -> bool:
         return self.source == other.source and self.target == other.target and self.weight == other.weight;
     
     def __hash__(self) -> int:
         return hash((self.source, self.target, self.weight));
     
-    def __ne__(self, other: "Edge") -> bool:
+    def __ne__(self, other: "IEdge") -> bool:
         return not self.__eq__(other);
 
 
@@ -125,7 +122,7 @@ class BasicGraph(IGraph):
         return;
         
     @staticmethod
-    def from_nodes(nodes: Set[INode], edges: Set[IEdge]) -> "Graph":
+    def from_nodes(nodes: Set[INode], edges: Set[IEdge]) -> "IGraph":
         """
         Creates a new `Graph` object from the given set of nodes and edges.
         
@@ -141,7 +138,7 @@ class BasicGraph(IGraph):
         Graph
             The new `Graph` object.
         """
-        G : Graph = Graph();
+        G : BasicGraph = BasicGraph();
         G.nodes = nodes;
         G.edges = edges;
         return G;
@@ -162,27 +159,42 @@ class BasicGraph(IGraph):
         """
         return len([edge for edge in self.edges if edge.source == node or edge.target == node]);
     
-    def neighbors(self, node: INode) -> Set[INode]:
+    def neighbors(self, node: INode, distance: int = 1) -> Set[INode]:
         """
-        Returns the neighbors of the given node in the graph.
+        Returns the neighbors of the given node in the graph, from 1 to a given distance.
         
         Parameters
         ----------
         node : Node
             The node whose neighbors are to be calculated.
+        distance : int, optional
+            The maximum distance from the node. Default is 1.
         
         Returns
         -------
         Set[Node]
             The set of neighbors of the node.
         """
-        neighbors : Set[INode] = set();
-        for edge in self.edges:
-            if edge.source == node:
-                neighbors.add(edge.target);
-            elif edge.target == node:
-                neighbors.add(edge.source);
-        return neighbors;
+        if distance <= 0: return set();
+        
+        explored : Set[INode] = set();
+        frontier : List[INode] = [node];
+        nodes : List[Tuple[INode, int]] = [];
+        curr_distance : int = 0;
+        
+        for i in range(distance):
+            for node in frontier:
+                for edge in self.edges:
+                    if edge.source == node and edge.target not in explored:
+                        nodes.append((edge.target, curr_distance + 1));
+                        explored.add(edge.target);
+            curr_distance += 1;
+            frontier = [node[0] for node in nodes];
+            nodes = [];
+            
+        return set(node[0] for node in nodes);
+        
+        
 
     def exist_path(self, source: INode, target: INode) -> bool:
         """
