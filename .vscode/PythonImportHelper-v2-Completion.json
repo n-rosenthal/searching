@@ -1,0 +1,55 @@
+[
+    {
+        "label": "Any;",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Node",
+        "kind": 6,
+        "importPath": "src.primitives.Node",
+        "description": "src.primitives.Node",
+        "peekOfCode": "class Node:\n    \"\"\"\n    `Node` represents a node in a graph.\n    Attributes:\n        attributes  (set): A set of attributes associated with the node. Defaults to the empty set.\n        value       (Any): The value of the node. Defaults to None.\n        node_id     (int): An identifier for the node. Defaults to None.\n        neighbors   (set): A set of nodes that are connected to the current node.\n    \"\"\"\n    def __init__(self, value : Any, node_id : int | None = None, attributes : set | None = None, neighbors : set | None = None):",
+        "detail": "src.primitives.Node",
+        "documentation": {}
+    },
+    {
+        "label": "GraphStatus",
+        "kind": 6,
+        "importPath": "src.primitives.Node",
+        "description": "src.primitives.Node",
+        "peekOfCode": "class GraphStatus:\n    \"\"\"\n    `GraphStatus` class is used for message exchange between functions and error handling.\n    \"\"\"\n    def __init__(self, status : str, message : str | None = None, code : int | None = None):\n        self.status = status;\n        self.message = message;\n        self.code = code;\nGraphOperationSuccess   : GraphStatus = GraphStatus(status=\"SUCCESS\", code=0);\nGraphOperationFailure   : GraphStatus = GraphStatus(status=\"FAILURE\", code=1);",
+        "detail": "src.primitives.Node",
+        "documentation": {}
+    },
+    {
+        "label": "Graph",
+        "kind": 6,
+        "importPath": "src.primitives.Node",
+        "description": "src.primitives.Node",
+        "peekOfCode": "class Graph:\n    \"\"\"\n    `Graph` represents a graph.\n    The index is maintained if nodes are inserted; if values are inserted, the `self.index` is used.\n    Attributes:\n        nodes   (dict[int, Node]): A dictionary mapping node IDs to nodes.\n        edges   (dict[Node, set[Node]]): A list of edges in the graph.\n    \"\"\"\n    def __init__(self, nodes : dict[int, Node] | None = None, edges : list[tuple[Node, Node]] | None = None):\n        \"\"\"",
+        "detail": "src.primitives.Node",
+        "documentation": {}
+    },
+    {
+        "label": "edge",
+        "kind": 2,
+        "importPath": "src.primitives.Node",
+        "description": "src.primitives.Node",
+        "peekOfCode": "def edge(v: \"Node\", w: \"Node\") -> Edge:\nclass Node:\n    \"\"\"\n    `Node` represents a node in a graph.\n    Attributes:\n        attributes  (set): A set of attributes associated with the node. Defaults to the empty set.\n        value       (Any): The value of the node. Defaults to None.\n        node_id     (int): An identifier for the node. Defaults to None.\n        neighbors   (set): A set of nodes that are connected to the current node.\n    \"\"\"",
+        "detail": "src.primitives.Node",
+        "documentation": {}
+    },
+    {
+        "label": "neighborhood",
+        "kind": 2,
+        "importPath": "src.primitives.Node",
+        "description": "src.primitives.Node",
+        "peekOfCode": "def neighborhood(node : Node, graph : Graph):\n    if isinstance(node.value, int):\n        neighbors : set[Node] = set();\n        ln, rn = node.value - 1, node.value + 1;\n        if ln in graph.nodes:\n            neighbors.add(graph.nodes[ln]);\n        if rn in graph.nodes:\n            neighbors.add(graph.nodes[rn]);\n        return neighbors;\n    else:",
+        "detail": "src.primitives.Node",
+        "documentation": {}
+    }
+]
