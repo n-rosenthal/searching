@@ -8,10 +8,12 @@ $$G : (V[G], E[G])$$
 Onde    $V[G]$ é o conjunto de vértices de $G$,
         $E[G]$ é o conjunto de arestas de $G$.
 
-Uma aresta é um par não-ordenado de vértices, isto é,
+Uma aresta é um par não-ordenado de vértices $e = \{v, u\}, u,v \in V[G]$, isto é,
 
 ```Python
 type Edge = set[Node, Node];
 ```
+
+
 
 
