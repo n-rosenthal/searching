@@ -1,10 +1,175 @@
 [
     {
+        "label": "product",
+        "importPath": "itertools",
+        "description": "itertools",
+        "isExtraImport": true,
+        "detail": "itertools",
+        "documentation": {}
+    },
+    {
+        "label": "permutations",
+        "importPath": "itertools",
+        "description": "itertools",
+        "isExtraImport": true,
+        "detail": "itertools",
+        "documentation": {}
+    },
+    {
+        "label": "combinations;",
+        "importPath": "itertools",
+        "description": "itertools",
+        "isExtraImport": true,
+        "detail": "itertools",
+        "documentation": {}
+    },
+    {
+        "label": "INode",
+        "importPath": "src.datastructures.primitives.NodicBasis",
+        "description": "src.datastructures.primitives.NodicBasis",
+        "isExtraImport": true,
+        "detail": "src.datastructures.primitives.NodicBasis",
+        "documentation": {}
+    },
+    {
+        "label": "IEdge",
+        "importPath": "src.datastructures.primitives.NodicBasis",
+        "description": "src.datastructures.primitives.NodicBasis",
+        "isExtraImport": true,
+        "detail": "src.datastructures.primitives.NodicBasis",
+        "documentation": {}
+    },
+    {
+        "label": "IGraph",
+        "importPath": "src.datastructures.primitives.NodicBasis",
+        "description": "src.datastructures.primitives.NodicBasis",
+        "isExtraImport": true,
+        "detail": "src.datastructures.primitives.NodicBasis",
+        "documentation": {}
+    },
+    {
+        "label": "GraphException",
+        "importPath": "src.datastructures.primitives.NodicBasis",
+        "description": "src.datastructures.primitives.NodicBasis",
+        "isExtraImport": true,
+        "detail": "src.datastructures.primitives.NodicBasis",
+        "documentation": {}
+    },
+    {
+        "label": "NodeException;",
+        "importPath": "src.datastructures.primitives.NodicBasis",
+        "description": "src.datastructures.primitives.NodicBasis",
+        "isExtraImport": true,
+        "detail": "src.datastructures.primitives.NodicBasis",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Set",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Tuple",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "DefaultDict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "TypeVar",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "Any;",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
         "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any;",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "order",
+        "importPath": "src.operators.ElementarNodicOperators",
+        "description": "src.operators.ElementarNodicOperators",
+        "isExtraImport": true,
+        "detail": "src.operators.ElementarNodicOperators",
+        "documentation": {}
+    },
+    {
+        "label": "MEdge",
+        "kind": 6,
+        "importPath": "src.operators.ElementaryNodicOperators",
+        "description": "src.operators.ElementaryNodicOperators",
+        "peekOfCode": "class MEdge(IEdge):\n    \"\"\"\n    A `MEdge` is an `Edge` associated with a `multiplicity` field.\n    Parameters\n    ----------\n    source : Node\n        The source node of the edge.\n    target : Node\n        The target node of the edge.\n    multiplicity : int",
+        "detail": "src.operators.ElementaryNodicOperators",
+        "documentation": {}
+    },
+    {
+        "label": "Multigraph",
+        "kind": 6,
+        "importPath": "src.operators.ElementaryNodicOperators",
+        "description": "src.operators.ElementaryNodicOperators",
+        "peekOfCode": "class Multigraph(IGraph):\n    \"\"\"\n    A `Multigraph` is a `Graph` structure that accepts internal loops and parallel, multiple edges between any pair of `Node`s.\n    Parameters\n    ----------\n    nodes : Set[Node]\n        The set of nodes in the graph.\n    edges : Set[MEdge]\n        The set of edges in the graph.\n    Attributes",
+        "detail": "src.operators.ElementaryNodicOperators",
+        "documentation": {}
+    },
+    {
+        "label": "size",
+        "kind": 2,
+        "importPath": "src.operators.ElementaryNodicOperators",
+        "description": "src.operators.ElementaryNodicOperators",
+        "peekOfCode": "def size(graph: IGraph) -> int:\n    \"\"\"\n    Returns the number of nodes in the graph.\n    Parameters\n    ----------\n    graph : Graph\n        The graph.\n    Returns\n    -------\n    int",
+        "detail": "src.operators.ElementaryNodicOperators",
+        "documentation": {}
+    },
+    {
+        "label": "order",
+        "kind": 2,
+        "importPath": "src.operators.ElementaryNodicOperators",
+        "description": "src.operators.ElementaryNodicOperators",
+        "peekOfCode": "def order(graph: IGraph) -> int:\n    \"\"\"\n    Returns the number of edges in the graph.\n    Paramenters\n    ----------\n    graph : Graph\n        The graph.\n    Returns\n    -------\n    int",
+        "detail": "src.operators.ElementaryNodicOperators",
+        "documentation": {}
+    },
+    {
+        "label": "empty",
+        "kind": 2,
+        "importPath": "src.operators.ElementaryNodicOperators",
+        "description": "src.operators.ElementaryNodicOperators",
+        "peekOfCode": "def empty(graph: IGraph) -> bool:\n    \"\"\"\n    Returns True if the graph is empty, False otherwise.\n    Parameters\n    ----------\n    graph : Graph\n        The graph.\n    Returns\n    -------\n    bool",
+        "detail": "src.operators.ElementaryNodicOperators",
         "documentation": {}
     },
     {
@@ -39,7 +204,7 @@
         "kind": 2,
         "importPath": "src.primitives.Node",
         "description": "src.primitives.Node",
-        "peekOfCode": "def edge(v: \"Node\", w: \"Node\") -> Edge:\nclass Node:\n    \"\"\"\n    `Node` represents a node in a graph.\n    Attributes:\n        attributes  (set): A set of attributes associated with the node. Defaults to the empty set.\n        value       (Any): The value of the node. Defaults to None.\n        node_id     (int): An identifier for the node. Defaults to None.\n        neighbors   (set): A set of nodes that are connected to the current node.\n    \"\"\"",
+        "peekOfCode": "def edge(v: \"Node\", w: \"Node\") -> Edge:\n    \"\"\"\n    Creates an edge between two nodes.\"\"\"\nclass Node:\n    \"\"\"\n    `Node` represents a node in a graph.\n    Attributes:\n        attributes  (set): A set of attributes associated with the node. Defaults to the empty set.\n        value       (Any): The value of the node. Defaults to None.\n        node_id     (int): An identifier for the node. Defaults to None.",
         "detail": "src.primitives.Node",
         "documentation": {}
     },
