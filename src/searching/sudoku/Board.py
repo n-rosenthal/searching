@@ -17,6 +17,17 @@ b_1 : str = "\
 5 0 0 4 1 9 0 0 5\n\
 0 0 0 0 8 0 0 7 9\n";
 
+solved_board : str = "\
+5 3 4 6 7 8 9 1 2\n\
+6 7 2 1 9 5 3 4 8\n\
+1 9 8 3 4 2 5 6 7\n\
+8 5 9 7 6 1 4 2 3\n\
+4 2 6 8 5 3 7 9 1\n\
+7 1 3 9 2 4 8 5 6\n\
+9 6 1 5 3 7 2 8 4\n\
+2 8 7 4 1 9 6 3 5\n\
+3 4 5 2 8 6 1 7 9\n";
+
 class SudokuBoard:
     """
     A `SudokuBoard` representation state.
@@ -118,8 +129,6 @@ class SudokuBoard:
         board_str = board_str.replace(" ", "").replace("\n", "")
         grid = np.array([int(board_str[i * 9 + j]) for i in range(9) for j in range(9)]).reshape(9, 9)
         fixed = (grid != 0);
-        print(grid)
-        print(fixed)
         return cls(grid, fixed)
 
     def set_value(self, row: int, col: int, value: int) -> None:
@@ -194,3 +203,29 @@ class SudokuBoard:
         """
         row, col, box = self.get_row(row), self.get_column(col), self.get_box((row // 3) * 3 + (col // 3));
         return set(row[row != 0]) | set(col[col != 0]) | set(box[box != 0]);
+    
+    def is_solved(self) -> bool:
+        """
+        Checks if the Sudoku board is solved.
+        A board is considered solved if all cells are filled and there are no conflicts.
+        
+        Returns:
+            bool: True if the board is solved, False otherwise.
+        """
+        values = set(range(1, 10));
+        
+        for i in range(9):
+            for j in range(9):
+                if self.grid[i][j] == 0:
+                    return (i, j);
+
+                if len(self.get_conflicts(i, j) - values) > 0:
+                    print(self.get_conflicts(i, j) - values);
+                    return False;
+        return True
+    
+if __name__ == "__main__":
+    board : SudokuBoard = SudokuBoard.from_string(solved_board);
+    print(board);
+    print(board.get_conflicting_cells());
+    print(board.is_solved());
