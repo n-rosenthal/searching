@@ -26,7 +26,7 @@
 enum Action {UP, LEFT, RIGHT, DOWN};
 
 
-std::vector<int> GOAL = {1, 2, 3, 4, 5, 6, 7, 8, 0};
+const static std::array<int, 9> GOAL = {1, 2, 3, 4, 5, 6, 7, 8, 0};
 // GOAL é o estado final do jogo.
 
 //  Functions for analyzing the 8Puzzle game
@@ -121,39 +121,33 @@ std::vector<Node> getNeighbors(const Node& node) {
  *          The number of misplaced tiles.
  */
 int misplacedTiles(std::array<int, 9> state) {
-    int score = 0;
-    for (int i = 0; i < 9; i++) {
+    int count = 0;
+    for (int i = 0; i < 9; ++i) {
         if (state[i] != GOAL[i]) {
-            score++;
+            ++count;
         }
     }
-    return score;
+    return count;
 };
 
 /**
  * @brief   Efficiently computes aprox. the Manhattan distance for two positions in a 3x3 grid.
  * 
- * @param   v `std::pair<int, int>`
- *          The first position.
- * @param   w `std::pair<int, int>`
- *          The second position.
- *
- * @return  `int`
- *          The Manhattan distance.
- */
-int manhattan(std::pair<int, int> v, std::pair<int, int> w) { return std::abs(v.first - w.first) + std::abs(v.second - w.second); }
-
-/**
- * @brief       Wrapper around the `manhattan` function for the 8Puzzle game.
- * @details     Takes the goal to be the first position of the 8Puzzle game.
+ * @param   x1 int
+ *          The x-coordinate of the first position.
+ * @param   y1 int
+ *          The y-coordinate of the first position.
+ * @param   x2 int
+ *          The x-coordinate of the second position.
+ * @param   y2 int
+ *          The y-coordinate of the second position.
  * 
- * @param       pos `std::pair<int, int>`
- *              The position of the tile.
- * 
- * @return      `int`
- *              The Manhattan distance to the goal.
+ * @return  int
+ *          The Manhattan distance between the two positions.
  */
-int manhattan(std::pair<int, int> pos) { return manhattan(pos, {0, 0}); }
+int manhattan(int x1, int y1, int x2, int y2) {
+    return std::abs(x1 - x2) + std::abs(y1 - y2);
+};
 
 /**
  * @brief   Manhattan distance heuristic for the 8Puzzle game.
@@ -163,20 +157,14 @@ int manhattan(std::pair<int, int> pos) { return manhattan(pos, {0, 0}); }
  * @return  The Manhattan distance.
  */
 int manhattanDistance(const std::array<int, 9>& state) {
-    static const std::array<std::pair<int, int>, 9> goalPositions = {
-        {{0, 0}, {1, 0}, {2, 0}, {0, 1}, {1, 1}, {2, 1}, {0, 2}, {1, 2}, {2, 2}}
-    };
-    int distance = 0;
+    int value = 0;
     for (int i = 0; i < 9; ++i) {
-        if (state[i] != 0) {
-            int x1 = i % 3;
-            int y1 = i / 3;
-            int x2 = goalPositions[state[i]].first;
-            int y2 = goalPositions[state[i]].second;
-            distance += std::abs(x1 - x2) + std::abs(y1 - y2);
+        const int goalIndex = GOAL[i];
+        if (state[i] != goalIndex) {
+            value += manhattan(i % 3, i / 3, goalIndex % 3, goalIndex / 3);
         }
     }
-    return distance;
+    return value;
 }
 
 /**
