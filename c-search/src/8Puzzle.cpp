@@ -109,6 +109,88 @@ std::vector<Node> getNeighbors(const Node& node) {
     return neighbors;
 }
 
+//  EVALUATION
+
+/**
+ * @brief   Misplaced tiles heuristic for the 8Puzzle game.
+ *
+ * @param   `std::array<int, 9>` state
+ *          The state of the 8Puzzle game.
+ * 
+ * @return  `int`
+ *          The number of misplaced tiles.
+ */
+int misplacedTiles(std::array<int, 9> state) {
+    int score = 0;
+    for (int i = 0; i < 9; i++) {
+        if (state[i] != GOAL[i]) {
+            score++;
+        }
+    }
+    return score;
+};
+
+/**
+ * @brief   Efficiently computes aprox. the Manhattan distance for two positions in a 3x3 grid.
+ * 
+ * @param   v `std::pair<int, int>`
+ *          The first position.
+ * @param   w `std::pair<int, int>`
+ *          The second position.
+ *
+ * @return  `int`
+ *          The Manhattan distance.
+ */
+int manhattan(std::pair<int, int> v, std::pair<int, int> w) { return std::abs(v.first - w.first) + std::abs(v.second - w.second); }
+
+/**
+ * @brief       Wrapper around the `manhattan` function for the 8Puzzle game.
+ * @details     Takes the goal to be the first position of the 8Puzzle game.
+ * 
+ * @param       pos `std::pair<int, int>`
+ *              The position of the tile.
+ * 
+ * @return      `int`
+ *              The Manhattan distance to the goal.
+ */
+int manhattan(std::pair<int, int> pos) { return manhattan(pos, {0, 0}); }
+
+/**
+ * @brief   Manhattan distance heuristic for the 8Puzzle game.
+ *
+ * @param   state The state of the 8Puzzle game.
+ *
+ * @return  The Manhattan distance.
+ */
+int manhattanDistance(const std::array<int, 9>& state) {
+    static const std::array<std::pair<int, int>, 9> goalPositions = {
+        {{0, 0}, {1, 0}, {2, 0}, {0, 1}, {1, 1}, {2, 1}, {0, 2}, {1, 2}, {2, 2}}
+    };
+    int distance = 0;
+    for (int i = 0; i < 9; ++i) {
+        if (state[i] != 0) {
+            int x1 = i % 3;
+            int y1 = i / 3;
+            int x2 = goalPositions[state[i]].first;
+            int y2 = goalPositions[state[i]].second;
+            distance += std::abs(x1 - x2) + std::abs(y1 - y2);
+        }
+    }
+    return distance;
+}
+
+/**
+ * @brief   Given an `Node` node, evaluates its `state` and returns a score.
+ * 
+ * @param   `Node` node
+ *          The `Node` for the 8Puzzle game.
+ * 
+ * @return  `int`
+ *          The score of the node.
+ */
+int evaluate(Node node) {
+    return misplacedTiles(node.state);
+};
 
 
 /**
@@ -137,11 +219,14 @@ int main() {
     
     std::vector<Node> neighbors = getNeighbors(node);
     for (Node neighbor : neighbors) {
-        printState(neighbor);
+        //  Evaluation
+        int score = evaluate(neighbor);
+        std::cout << "Misplaced Tiles: " << score <<  "Manhattan Distance: " << manhattanDistance(neighbor.state) << std::endl;
         std::vector<Node> neighbors2 = getNeighbors(neighbor);
 
         for (Node neighbor2 : neighbors2) {
-            printState(neighbor2);
+            int score2 = evaluate(neighbor2);
+            std::cout << "Misplaced Tiles: " << score2 <<  "Manhattan Distance: " << manhattanDistance(neighbor2.state) << std::endl;
         };
     };
 
