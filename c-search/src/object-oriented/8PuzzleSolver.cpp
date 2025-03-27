@@ -18,6 +18,17 @@ using Clock = chrono::high_resolution_clock;
 // ====================== Core Data Structures ======================
 enum class Action { UP, LEFT, RIGHT, DOWN, NONE };
 
+/**
+ * @brief       A `PuzzleState` represents a state in the 8Puzzle game.
+ * @details     It contains a vector of tiles (the board of the game) and the position of the empty tile (0). Its `hash_value` is computed by multiplying the hash value of each tile by 31 and adding the hash value of the empty tile.
+ * 
+ * @arg         `array<int, 9>` tiles
+ *              The board of the game.  
+ * @arg         `int` blank_pos
+ *              The position of the empty tile. 
+ * @arg         `int` hash_value
+ *              The hash value of the state.
+ */
 struct PuzzleState {
     array<int, 9> tiles;
     int blank_pos;
@@ -42,23 +53,77 @@ struct PuzzleState {
 };
 
 // ====================== Heuristic ======================
+/**
+ * @class Heuristic
+ * @brief Interface for a heuristic function.
+ * 
+ * @details A heuristic function estimates the cost to reach the goal state from a given state.
+ *          The `calculate` method must be implemented by derived classes.
+ *          The `average` method returns the average value of the heuristic over all states that have been evaluated so far.
+ */
 class Heuristic {
 public:
+    /**
+     * @brief The total value of all heuristic evaluations so far.
+     * 
+     * @details This value is used to compute the average value of the heuristic over all states that have been evaluated so far.
+     */
     mutable int total = 0;
+
+    /**
+     * @brief The number of states that have been evaluated so far.
+     * 
+     * @details This value is used to compute the average value of the heuristic over all states that have been evaluated so far.
+     */
     mutable int count = 0;
-    
+
+    /**
+     * @brief Pure virtual method that must be implemented by derived classes.
+     * 
+     * @param[in] s The state to evaluate.
+     * 
+     * @return The estimated cost to reach the goal state from the given state.
+     */
     virtual int calculate(const PuzzleState&) const = 0;
+
+    /**
+     * @brief Destructor.
+     * 
+     * @details Does nothing.
+     */
     virtual ~Heuristic() = default;
-    
+
+    /**
+     * @brief Computes the average value of the heuristic over all states that have been evaluated so far.
+     * 
+     * @return The average value of the heuristic over all states that have been evaluated so far.
+     */
     double average() const { 
         return count > 0 ? static_cast<double>(total)/count : 0.0;
     }
 };
 
+/**
+ * @brief       The `ManhattanHeuristic` class implements the Manhattan distance heuristic for the 8Puzzle game.
+ * @details     The heuristic estimates the cost to reach the goal state from a given state by summing the Manhattan distances between each tile and its corresponding position in the goal state.
+ */
 class ManhattanHeuristic : public Heuristic {
 public:
+    /**
+     * @brief   The goal position of each tile in the goal state.
+     */
     static const array<int, 9> GOAL_POS;
-    
+
+
+    /**
+     * @brief       Calculates the Manhattan distance between each tile and its corresponding position in the goal state.
+     * @details     The Manhattan distance is the sum of the absolute differences between the row and column indices of the tile and its corresponding position in the goal state.
+     * 
+     * @param       `PuzzleState&` s
+     *              The state to evaluate.
+     * @return      `int`
+     *              The estimated cost to reach the goal state from the given state. 
+     */
     int calculate(const PuzzleState& s) const override {
         int distance = 0;
         for (int i = 0; i < 9; ++i) {
@@ -71,6 +136,10 @@ public:
         return distance;
     }
 };
+
+/**
+ * @brief       Definition of the goal position of each tile in the goal state for any of the heuristics.
+ */
 const array<int, 9> ManhattanHeuristic::GOAL_POS = {0,1,2,3,4,5,6,7,8};
 
 // ====================== Search Nodes ======================
